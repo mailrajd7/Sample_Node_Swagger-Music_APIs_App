@@ -1,0 +1,302 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Music swager apis
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+  - multipart/form-data
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+  - text/plain
+  - text/html
+  - text/css
+  - application/octet-stream
+paths:
+  /hello:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: hello
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+  /songs:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: songs_controller
+    get:
+      description: Returns lists of songs to user
+      # used as the method name of the controller
+      operationId: getSongs
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SongsSuccessResponse"
+        "500":
+          description: Error
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SongErrorResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SongErrorResponse"
+  /songs/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: songs_controller
+    get:
+      description: Returns lists of songs to user
+      # used as the method name of the controller
+      operationId: getSong
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: id for song to get
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SongSuccessResponse"
+        "500":
+          description: Error
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SongErrorResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SongErrorResponse"
+  /musics/{filename}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: songs_controller
+    get:
+      description: Returns lists of songs to user
+      # used as the method name of the controller
+      operationId: getStreamMusic
+      parameters:
+        - in: path
+          name: filename
+          type: string
+          required: true
+          description: song name to get streamed
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/streamSuccessMusics"
+        "500":
+          description: Error
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SongErrorResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SongErrorResponse"
+  /:
+    x-swagger-router-controller: songs_controller
+    get:
+      description: Admin view to add songs
+      # used as the method name of the controller
+      operationId: getAddSong
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+  /upload:
+    x-swagger-router-controller: songs_controller
+    post:
+      description: upload a song
+      # used as the method name of the controller
+      operationId: postUploadSong
+      #forms filed
+      parameters:
+        - in: formData
+          name: songname
+          type: string
+          required: true
+          description: Song Name.
+        - in: formData
+          name: artistname
+          type: string
+          required: true
+          description: Artist Name.
+        - in: formData
+          name: duration
+          type: string
+          required: true
+          description: Total Duration.
+        - in: formData
+          name: releasedate
+          type: string
+          required: true
+          description: Release Date.
+        - in: formData
+          name: filmname
+          type: string
+          required: true
+          description: Film Name.
+        - in: formData
+          name: company
+          type: string
+          required: true
+          description: Company.
+        - in: formData
+          name: songimage
+          type: file
+          description: add audio image.
+          required: true
+        - in: formData
+          name: songaudio
+          type: file
+          description: add audio file.
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+
+# complex objects have schema definitions
+definitions:
+  HelloWorldResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  SongsSuccessResponse:
+    type: object
+    properties:
+      msg:
+        type: string
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            songame:
+              type: string
+            artist:
+              type: string
+            duration: 
+              type: string
+            releaseDate:
+              type: string
+            songimage: 
+              type: string
+            filmName:
+              type: string
+            company:
+              type: string
+          required:
+            - id
+            - songame
+            - artist
+            - duration
+            - releaseDate
+            - songimage
+            - filmName
+            - company   
+    required:
+        - msg
+        - data
+  SongSuccessResponse:
+    type: object
+    properties:
+      msg:
+        type: string
+      data:
+        type: object
+        properties:
+          id:
+            type: string
+          songame:
+            type: string
+          artist:
+            type: string
+          duration: 
+            type: string
+          releaseDate:
+            type: string
+          songurl:
+            type: string
+          songimage: 
+            type: string
+          filmName:
+            type: string
+          company:
+            type: string
+        required:
+          - id
+          - songame
+          - artist
+          - duration
+          - releaseDate
+          - songurl
+          - songimage
+          - filmName
+          - company   
+    required:
+        - msg
+        - data
+  SongErrorResponse:
+    type: object
+    properties:
+      msg:
+        type: string
+      data:
+        type:
+          - "null"
+    required:
+        - msg
+        - data
+  streamSuccessMusics:
+    type: string
+    format: binary

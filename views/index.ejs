@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title><%=title%></title>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="header"><%- include('./include/header.ejs') %></div>
+            <div class="form">
+                <form action="/upload" enctype="multipart/form-data" method="post">
+                
+                <div class="row">
+                    <label for="songname">Song Name:</label>
+                    <input type="text" required name="songname" />
+                </div>
+                
+                <div class="row">
+                    <label for="artistname">Artist Name</label>
+                    <input type="text" required name="artistname" />
+                </div>
+                
+                <div class="row">
+                    <label for="duration"> Total Duration</label>
+                    <input type="text" required name="duration" />
+                </div>
+                
+                <div class="row">
+                    <label for="releasedate">Release Date</label>
+                    <input type="text" required name="releasedate" />
+                </div>
+
+                <div class="row">
+                    <label for="filmname">Film Name</label>
+                    <input type="text" required name="filmname" />
+                </div>
+
+                <div class="row">
+                    <label for="company">Company</label>
+                    <input type="text" required name="company" />
+                </div>
+
+                <div class="row">
+                    <label for="songimage">Song Image</label>
+                    <input type="file" required name="songimage"/>
+                </div>
+                
+                <div class="row">
+                    <label for="songaudio">Song File</label>
+                    <input type="file" required name="songaudio"/>
+                </div>
+                
+                <div class="row">
+                    <input type="submit" value="Upload File" name="submit">
+                </div>
+            </form>
+            </div>
+        </div>
+    </body>
+</html>
