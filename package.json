@@ -13,13 +13,13 @@
     "debug": "^4.1.1",
     "express": "^4.12.3",
     "mocha": "^7.0.1",
-    "swagger-express-mw": "^0.1.0",
+    "swagger-express-mw": "^0.7.0",
     "swagger-tools": "^0.10.4",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "should": "^7.1.0",
-    "supertest": "^1.0.0",
+    "supertest": "^6.3.3",
     "body-parser": "^1.19.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
